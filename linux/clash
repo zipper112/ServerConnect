@@ -1,0 +1,33 @@
+echo -e "\033[34m 服务器联网V1.0 By MaHaoLong \033[0m"
+kill `ps -ef| egrep ${USER:0:4}.+clash|grep -v "grep"| awk '{print $2}'`
+echo "[提示]成功关闭正在运行的Clash"
+
+ip=`cat ~/.config/ip.txt`
+res=`lsof -i:$ip`
+
+while [[ $res != "" ]];
+do
+        printf "[警告]当前端口%s已被占用，请输入另一个未被占用的端口来启动clash\n" res
+        echo "[提示]请输入一个0-65535的数字作为新的端口:"
+        read res
+        expr $res "+" 10 &> /dev/null
+        if [ $? -eq 0 ];then
+                echo "[提示]$res 检查中..."
+        else
+                echo "[警告]$res 不是一个合法的数字!"
+                continue
+        fi
+        echo $res > ~/.config/ip.txt
+        ip=`cat ~/.config/ip.txt`
+        res=`lsof -i:$ip`
+done
+echo "[提示]$ip 未被占用，已选做clash监听端口!"
+sed -i "s/mixed-port: [0-9]\+/mixed-port: ${ip}/g" ~/.config/clash/config.yaml 
+
+echo "[提示]请输入当前Clash服务端的IP: "
+read server_ip
+sed -i "s/server: [0-9]\+.[0-9]\+.[0-9]\+.[0-9]\+/server: ${server_ip}/g" ~/.config/clash/config.yaml
+echo "[提示]已修改config文件为最新的服务端IP!"
+nohup clash.meta-linux-amd64 >/dev/null 2>&1 &
+echo "[提示]Clash已重启成功！"
+

@@ -1,0 +1,6 @@
+echo -e "\033[34m 服务器联网V1.0 By MaHaoLong \033[0m"
+echo "输入你要安装的包:"
+ip=`cat ~/.config/ip.txt`
+read packages
+
+http_proxy=127.0.0.1:$ip all_proxy=127.0.0.1:$ip pip install $packages -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com/pypi/simple
