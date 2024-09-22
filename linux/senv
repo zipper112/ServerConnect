@@ -1,0 +1,32 @@
+#!/bin/bash
+
+
+echo "┌───────────────────────────────────────────────┐"
+
+echo -e "│ ${GREEN}服务器联网2.0 by Haolong Ma${NC}                   │"
+echo -e "│ ${GREEN}该软件遵守GPLv3开源协议${NC}                       │"
+echo -e "│ ${GREEN}如有任何问题，请联系作者${NC}                      │"
+
+echo "└───────────────────────────────────────────────┘"
+
+
+# 读取 ~/.config/ip.txt 和 ~/.config/port.txt 中的IP和端口
+ip=$(cat ~/.config/ip.txt)
+port=$(cat ~/.config/port.txt)
+
+# 检查 IP 和端口是否存在
+if [[ -z "$ip" || -z "$port" ]]; then
+    echo "IP 或端口未正确配置，请检查 ~/.config/ip.txt 和 ~/.config/port.txt"
+    exit 1
+fi
+
+# 设置代理
+export all_proxy="http://$ip:$port"
+export http_proxy="http://$ip:$port"
+export https_proxy="http://$ip:$port"
+
+echo "请输入要执行的命令:"
+read user_command
+
+eval "$user_command"
+

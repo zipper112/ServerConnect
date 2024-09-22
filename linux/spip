@@ -1,6 +1,22 @@
-echo -e "\033[34m 服务器联网V1.0 By MaHaoLong \033[0m"
+#!/bin/bash
+
+
+# 打印上边框
+echo "┌───────────────────────────────────────────────┐"
+
+# 打印框内内容，并使用绿色字体
+echo -e "│ ${GREEN}服务器联网2.0 by Haolong Ma${NC}                   │"
+echo -e "│ ${GREEN}该软件遵守GPLv3开源协议${NC}                       │"
+echo -e "│ ${GREEN}如有任何问题，请联系作者${NC}                      │"
+
+# 打印下边框
+echo "└───────────────────────────────────────────────┘"
+
 echo "输入你要安装的包:"
-ip=`cat ~/.config/ip.txt`
 read packages
 
-http_proxy=127.0.0.1:$ip all_proxy=127.0.0.1:$ip pip install $packages -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com/pypi/simple
+ip=$(cat ~/.config/ip.txt)
+port=$(cat ~/.config/port.txt)
+
+http_proxy="$ip:$port" all_proxy="$ip:$port" pip install "$packages" -i http://mirrors.aliyun.com/pypi/simple --trusted-host mirrors.aliyun.com/pypi/simple
+
