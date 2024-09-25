@@ -17,16 +17,16 @@ echo "└───────────────────────�
 
 mkdir -p ~/.config
 
+# 判断文件是否存在
+if [[ ! -f "$PORT_FILE" ]]; then
+    touch ~/.config/port.txt
+    echo "10809" > "$PORT_FILE"
+fi
+
 touch ~/.config/ip.txt
-touch ~/.config/port.txt
 
 
 PORT_FILE="$HOME/.config/port.txt"
-
-# 判断文件是否存在
-if [[ ! -f "$PORT_FILE" ]]; then
-    echo "10809" > "$PORT_FILE"
-fi
 
 
 function valid_ip() {
